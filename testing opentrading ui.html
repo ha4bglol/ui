@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeOS Pro</title>
+    <style>
+        :root {
+            --apple-black: #1D1D1F;
+            --apple-gray: #F5F5F7;
+            --apple-blue: #007AFF;
+            --ios-card-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+            background: var(--apple-gray);
+            margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page-container {
+            display: grid;
+            grid-template-rows: 1fr auto;
+            height: 100vh;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Навигация */
+        .nav-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(40px);
+            border-top: 1px solid #E5E5EA;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            color: #86868B;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+            border-radius: 14px;
+            font-size: 0.85em;
+        }
+
+        .nav-item.active {
+            color: var(--apple-blue);
+            background: rgba(0,122,255,0.08);
+            transform: translateY(-6px);
+        }
+
+        /* Секции */
+        .content-section {
+            display: none;
+            padding: 1.2rem;
+            overflow-y: auto;
+            margin-bottom: 76px;
+            gap: 1.2rem;
+        }
+
+        .content-section.active {
+            display: grid;
+        }
+
+        /* iOS стилове */
+        .ios-card {
+            background: white;
+            border-radius: 18px;
+            padding: 1.4rem;
+            box-shadow: var(--ios-card-shadow);
+        }
+
+        .ios-card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.1em;
+            color: var(--apple-black);
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e9e9eb;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--apple-blue);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+
+        /* TradingView widgets */
+        .tradingview-widget-container {
+            border-radius: 14px !important;
+            overflow: hidden !important;
+            height: 100%;
+        }
+
+        .tradingview-widget-copyright {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Начална секция -->
+        <section class="content-section active" id="home">
+            <div class="ios-card">
+                <h3>Добре дошли! 👋</h3>
+                <p>Вашият баланс: <strong>0.66 USD</strong></p>
+                <p>Последна активност: 2 часа</p>
+            </div>
+            
+            <div class="ios-card">
+                <h3>Бърз достъп ⚡</h3>
+                <div class="settings-item">
+                    <span>Търговия с крипто</span>
+                    <span>➔</span>
+                </div>
+                <div class="settings-item">
+                    <span>Портфейл анализ</span>
+                    <span>➔</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Графики -->
+        <section class="content-section" id="charts">
+            <div class="ios-card">
+                <h3>Цени в реално време 📊</h3>
+                <div style="height: 500px">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                        {
+                            "autosize": true,
+                            "symbol": "NASDAQ:AAPL",
+                            "interval": "D",
+                            "timezone": "Etc/UTC",
+                            "theme": "light",
+                            "style": "1",
+                            "locale": "en",
+                            "allow_symbol_change": false,
+                            "hide_side_toolbar": true,
+                            "hidevolume": true,
+                            "withdateranges": false,
+                            "studies": [],
+                            "support_host": "https://www.tradingview.com"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Новини -->
+        <section class="content-section" id="news">
+            <div class="ios-card" style="height: calc(100vh - 180px)">
+                <h3>Пазарни новини 📰</h3>
+                <div class="tradingview-widget-container" style="height:100%;width:100%">
+                    <div class="tradingview-widget-container__widget"></div>
+                    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+                    {
+                        "feedMode": "all_symbols",
+                        "isTransparent": false,
+                        "displayMode": "compact",
+                        "width": "100%",
+                        "height": "100%",
+                        "colorTheme": "light",
+                        "locale": "en",
+                        "hideUtilityBar": true
+                    }
+                    </script>
+                </div>
+            </div>
+        </section>
+
+        <!-- Настройки -->
+        <section class="content-section" id="settings">
+            <div class="ios-card">
+                <h3>Настройки ⚙️</h3>
+                <div class="settings-item">
+                    <span>Нощен режим</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-item">
+                    <span>Известия</span>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="settings-item">
+                    <span>Биометрия</span>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <nav class="nav-bar">
+            <div class="nav-item" data-section="home">🏠 Начало</div>
+            <div class="nav-item active" data-section="charts">📈 Графики</div>
+            <div class="nav-item" data-section="news">📰 Новини</div>
+            <div class="nav-item" data-section="settings">⚙️ Настройки</div>
+        </nav>
+    </div>
+
+    <script>
+        // Управление на секциите
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const sectionId = this.dataset.section;
+                
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+                
+                if(navigator.vibrate) navigator.vibrate(3);
+            });
+        });
+
+        // Почистване на TradingView елементи
+        setInterval(() => {
+            document.querySelectorAll('.tradingview-widget-copyright').forEach(e => e.remove());
+        }, 1000);
+    </script>
+</body>
+</html>
